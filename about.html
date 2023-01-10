@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% block title %}About{% endblock title %}
+{% block body %}
+<div class="container">
+    <h1 align='center'> Brain Tumor Image Classification </h1>
+</div>
+<div class="container-fluid my-auto my-auto ">
+    <h3 align="left">What is Image Classifiaction?</h3>
+    <p> Image classification is the process of categorizing and labeling groups of pixels or vectors within an image based on specific rules. The categorization law can be devised using one or more spectral or textural characteristics. Two general methods of classification are ‘supervised’ and ‘unsupervised’.
+
+    Unsupervised classification method is a fully automated process without the use of training data. Using a suitable algorithm, the specified characteristics of an image is detected systematically during the image processing stage. The classification methods used in here are ‘image clustering’ or ‘pattern recognition’. Two frequent algorithms used are called ‘ISODATA’ and ‘K-mean’.
+    
+    Supervised classification method is the process of visually selecting samples (training data) within the image and assigning them to pre-selected categories (i.e., roads, buildings, water body, vegetation, etc.) in order to create statistical measures to be applied to the entire image. ‘maximum likelihood’ and ‘minimum distance’ are two common methods to categorize the entire image using the training data. </p>
+</div>
+<div class="container-fluid my-auto">
+    <h3 align="left">What is Convolution Neural Network?</h3>
+    <p>
+        A Convolutional Neural Network (ConvNet/CNN) is a Deep Learning algorithm that can take in an input image, assign importance (learnable weights and biases) to various aspects/objects in the image, and be able to differentiate one from the other. The pre-processing required in a ConvNet is much lower as compared to other classification algorithms. While in primitive methods filters are hand-engineered, with enough training, ConvNets have the ability to learn these filters/characteristics.
+        
+        The architecture of a ConvNet is analogous to that of the connectivity pattern of Neurons in the Human Brain and was inspired by the organization of the Visual Cortex. Individual neurons respond to stimuli only in a restricted region of the visual field known as the Receptive Field. A collection of such fields overlap to cover the entire visual area.
+    </p>
+</div>
+<div class="container-fluid my-auto">
+    <div class="devsite-article-body clearfix">
+<p>
+<devsite-mathjax config="TeX-AMS-MML_SVG"></devsite-mathjax></p>
+
+
+<h3 >Introducing Convolutional Neural Networks</h3>
+
+<p>A breakthrough in building models for image classification came with the
+discovery that a <a href="https://wikipedia.org/wiki/Convolutional_neural_network">convolutional neural
+network</a> (CNN) could
+be used to progressively extract higher- and higher-level representations of the
+image content. Instead of preprocessing the data to derive features like
+textures and shapes, a CNN takes just the image's raw pixel data as input and
+"learns" how to extract these features, and ultimately infer what object they
+constitute.</p>
+
+<p>To start, the CNN receives an input feature map: a three-dimensional matrix
+where the size of the first two dimensions corresponds to the length and width
+of the images in pixels. The size of the third dimension is 3 (corresponding to
+the 3 channels of a color image: red, green, and blue). The CNN comprises a
+stack of modules, each of which performs three operations.</p>
+
+<h3 align="left">1. Convolution</h3>
+<p>A <em>convolution</em> extracts tiles of the input feature map, and applies filters to
+them to compute new features, producing an output feature map, or <em>convolved
+feature</em> (which may have a different size and depth than the input feature map).
+Convolutions are defined by two parameters:</p>
+
+<ul>
+<li><strong>Size of the tiles that are extracted</strong> (typically 3x3 or 5x5 pixels).</li>
+<li><strong>The depth of the output feature map</strong>, which corresponds to the number of
+filters that are applied.</li>
+</ul>
+
+<p>During a convolution, the filters (matrices the same size as the tile size)
+effectively slide over the input feature map's grid horizontally and vertically,
+one pixel at a time, extracting each corresponding tile (see Figure 3).</p>
+
+<p><img src="/static/convolution_overview.gif" alt="A 3x3 convolution over a 4x4 feature
+map">
+<em>Figure 3. A 3x3 convolution of depth 1 performed over a 5x5 input feature map,
+also of depth 1. There are nine possible 3x3 locations to
+extract tiles from the 5x5 feature map, so this convolution produces a 3x3
+output feature map.</em></p>
+
+<aside class="note">In Figure 3, the output feature map (3x3) is smaller than the input
+feature map (5x5). If you instead want the output feature map to have the same
+dimensions as the input feature map, you can add <em>padding</em> (blank rows/columns
+with all-zero values) to each side of the input feature map, producing a 7x7
+matrix with 5x5 possible locations to extract a 3x3 tile.</aside>
+
+<p>For each filter-tile pair, the CNN performs element-wise multiplication of the
+filter matrix and the tile matrix, and then sums all the elements of the
+resulting matrix to get a single value. Each of these resulting values for every
+filter-tile pair is then output in the <em>convolved feature</em> matrix (see Figures
+4a and 4b).</p>
+
+<p><img src="/static/convolution_example.svg" alt="A 5x5 feature map and a 3x3 convolution">
+<em>Figure 4a. <b>Left</b>: A 5x5 input feature map (depth 1). <b>Right</b>: a 3x3
+convolution (depth 1).</em></p>
+
+<p><devsite-iframe class="" height="247px" style="height: 247px;">
+  <iframe height="300px" width="100%" loading="lazy" src="/static/widget.html" name="goog_1077533792"></iframe>
+</devsite-iframe></p>
+
+<p><em>Figure 4b. <b>Left</b>: The 3x3
+convolution is performed on the 5x5 input feature map. <b>Right</b>: the
+resulting convolved feature. Click on a value in the output feature map to
+see how it was calculated.</em></p>
+
+<p>During training, the CNN "learns" the optimal values for the filter matrices
+that enable it to extract meaningful features (textures, edges, shapes) from the
+input feature map. As the number of filters (output feature map depth) applied
+to the input increases, so does the number of features the CNN can extract.
+However, the tradeoff is that filters compose the majority of resources expended
+by the CNN, so training time also increases as more filters are added.
+Additionally, each filter added to the network provides less incremental value
+than the previous one, so engineers aim to construct networks that use the
+minimum number of filters needed to extract the features necessary for accurate
+image classification.</p>
+
+<h3 align="left">2. ReLu</h3>
+<p>Following each convolution operation, the CNN applies a Rectified Linear Unit
+(ReLU) transformation to the convolved feature, in order to introduce
+nonlinearity into the model. The ReLU function, <span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax_SVG" id="MathJax-Element-1-Frame" tabindex="0" style="font-size: 100%; display: inline-block; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mi>F</mi><mo stretchy=&quot;false&quot;>(</mo><mi>x</mi><mo stretchy=&quot;false&quot;>)</mo><mo>=</mo><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy=&quot;false&quot;>(</mo><mn>0</mn><mo>,</mo><mi>x</mi><mo stretchy=&quot;false&quot;>)</mo></math>" role="presentation"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="17.913ex" height="2.613ex" viewBox="0 -817.3 7712.7 1125" role="img" focusable="false" style="vertical-align: -0.715ex;" aria-hidden="true"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><use xlink:href="#MJMATHI-46" x="0" y="0"></use><use xlink:href="#MJMAIN-28" x="749" y="0"></use><use xlink:href="#MJMATHI-78" x="1139" y="0"></use><use xlink:href="#MJMAIN-29" x="1711" y="0"></use><use xlink:href="#MJMAIN-3D" x="2378" y="0"></use><use xlink:href="#MJMATHI-6D" x="3435" y="0"></use><use xlink:href="#MJMATHI-61" x="4313" y="0"></use><use xlink:href="#MJMATHI-78" x="4843" y="0"></use><use xlink:href="#MJMAIN-28" x="5415" y="0"></use><use xlink:href="#MJMAIN-30" x="5805" y="0"></use><use xlink:href="#MJMAIN-2C" x="6305" y="0"></use><use xlink:href="#MJMATHI-78" x="6750" y="0"></use><use xlink:href="#MJMAIN-29" x="7323" y="0"></use></g></svg><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>F</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">(</mo><mn>0</mn><mo>,</mo><mi>x</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-1">F(x)=max(0,x)</script>, returns <em>x</em>
+for all values of <em>x</em> &gt; 0, and returns 0 for all values of <em>x</em> ≤ 0. </p>
+
+
+<h3 align="left">3. Pooling</h3>
+<p>After ReLU comes a pooling step, in which the CNN downsamples the convolved
+feature (to save on processing time), reducing the number of dimensions of the
+feature map, while still preserving the most critical feature information. A
+common algorithm used for this process is called <a href="https://wikipedia.org/wiki/Convolutional_neural_network#Pooling_layer">max
+pooling</a>.</p>
+
+<p>Max pooling operates in a similar fashion to convolution. We slide over the
+feature map and extract tiles of a specified size. For each tile, the maximum
+value is output to a new feature map, and all other values are discarded. Max
+pooling operations take two parameters:</p>
+
+<ul>
+<li><strong>Size</strong> of the max-pooling filter (typically 2x2 pixels)</li>
+<li><strong>Stride</strong>: the distance, in pixels, separating each extracted tile. Unlike
+with convolution, where filters slide over the feature map pixel by pixel,
+in max pooling, the stride determines the locations where each tile is
+extracted. For a 2x2 filter, a stride of 2 specifies that the max pooling
+operation will extract all nonoverlapping 2x2 tiles from the feature map
+(see Figure 5).</li>
+</ul>
+
+<p><img src="/static/maxpool_animation.gif" alt="Animation of max pooling over a 4x4 feature map with a 2x2 filter and stride of
+2"></p>
+
+<p><em>Figure 5. <b>Left</b>: Max pooling performed over a 4x4
+feature map with a 2x2 filter and stride of 2. <b>Right</b>: the output of the
+max pooling operation. Note the resulting feature map is now 2x2, preserving
+only the maximum values from each tile.</em></p>
+
+<h3 align="left" >Fully Connected Layers</h3>
+<p>At the end of a convolutional neural network are one or more fully connected
+layers (when two layers are "fully connected," every node in the first layer is
+connected to every node in the second layer). Their job is to perform
+classification based on the features extracted by the convolutions. Typically,
+the final fully connected layer contains a softmax activation function, which
+outputs a probability value from 0 to 1 for each of the classification labels
+the model is trying to predict. </p>
+
+
+<p>Figure 6 illustrates the end-to-end structure of a convolutional neural network.</p>
+<p><img src="/static/cnn_architecture.svg" width="1000" height="500" alt="End-to-end diagram of a convolutional neural network, showing input,
+two convolution modules, and two fully connected layers for classification"></p>
+
+<p><em>Figure 6. The CNN shown here contains two convolution modules (convolution + ReLU +
+pooling) for feature extraction, and two fully connected layers for
+classification. Other CNNs may contain larger or smaller numbers of
+convolutional modules, and greater or fewer fully connected layers. Engineers
+often experiment to figure out the configuration that produces the best results
+for their model.</em></p>
+
+</div>
+</div>
+
+{% endblock body %}
